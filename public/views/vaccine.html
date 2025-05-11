@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/styles.css">
+  <title>Vaccine Management</title>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="owner.html">Register Owner</a>
+    <a href="pet.html">Add Pet</a>
+    <a href="vet.html">Assign Vet</a>
+    <a href="visit.html">Log Visit</a>
+    <a href="health.html">Record Health</a>
+    <a href="vaccination.html">Vaccination Schedule</a>
+  </nav>
+  <h1>Vaccine Management</h1>
+
+  <!-- Form for Adding New Vaccines -->
+  <section class="sep">
+    <h2>Add a New Vaccine</h2>
+    <form class="data-form" data-type="vaccine">
+      <input type="number" name="VaccineID" placeholder="Vaccine ID (Unique)" required />
+      <input type="text" name="VaccineName" placeholder="Vaccine Name" required />
+      <input type="text" name="Species" placeholder="Species" required />
+      <input type="number" name="RecommendedAgeMonths" placeholder="Recommended Age (Months)" required />
+      <input type="number" name="BoosterIntervalMonths" placeholder="Booster Interval (Months)" required />
+      <label for="LastRestocked">Restock Date</label>
+      <input type="date" name="LastRestocked" required />
+      <input type="text" name="Description" placeholder="Add Description" required />
+      <button type="submit">Add Vaccine</button>
+    </form>
+  </section>
+
+  <!-- Button to Show All -->
+  <div>
+    <button class="show-hide-btn" data-type="vaccine">Show All</button>
+    <ul class="data-list" data-type="vaccine" style="display: none;"></ul>
+  </div>
+
+  <footer>© 2024 Pet Care Tracker</footer>
+  <script src="../js/scripts.js"></script>
+</body>
+</html>

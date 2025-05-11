@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/styles.css">
+  <title>Veterinarian Management</title>
+</head>
+<body>
+  
+
+  <!-- Navigation Bar -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="owner.html">Record Owner</a>
+    <a href="pet.html">Add Pet</a>
+    <a href="visit.html">Log Visit</a>
+    <a href="health.html">Record Health</a>
+    <a href="vaccination.html">Vaccination Schedule</a>
+    <a href="vaccine.html">Update Vaccine</a>
+  </nav>
+  <h1>Veterinarian Management</h1>
+
+  <!-- Form for Adding Veterinarians -->
+  <section>
+    <h2>Add a Veterinarian</h2>
+    <form class="data-form" data-type="vets">
+      <input type="number" name="VetID" placeholder="Vet ID (Unique)" required />
+      <input type="text" name="Name" placeholder="Vet Name" required />
+      <input type="text" name="ClinicName" placeholder="Clinic Name" />
+      <input type="text" name="Phone" placeholder="Phone" required />
+      <input type="email" name="Email" placeholder="Email" />
+      <button type="submit">Add Veterinarian</button>
+    </form>
+  </section>
+
+  <!-- Veterinarian List -->
+  <div>
+    <button class="show-hide-btn" data-type="vets">Show All</button>
+    <ul class="data-list" data-type="vets" style="display: none;"></ul>
+  </div>
+
+  <footer>© 2024 Pet Care Tracker</footer>
+  <script src="../js/scripts.js"></script>
+</body>
+</html>

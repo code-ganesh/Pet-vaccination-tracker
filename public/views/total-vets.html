@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <link rel="stylesheet" href="../css/index.css"> -->
+  <title>Total Vets</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(100deg, #ade8f4, #95cae9, #8eaad7, #cdb4db, #ffc8dd);
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+    text-align: center;
+   margin: 0px;
+    color: #2c3e50;
+  }
+  nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #2c3e50;
+  padding: 15px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+nav a:hover {
+  background-color: #edf2fb;
+  color: #2c3e50;
+}
+
+
+@media (max-width: 768px) {
+nav {
+  flex-direction: column;
+  gap: 10px;
+}
+
+nav a {
+  padding: 8px 15px;
+}
+}
+    .container {
+      max-width: 1100px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #310000;
+    }
+
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .search-bar {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .search-bar input {
+      width: 70%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+
+    .search-bar button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .search-bar button:hover {
+      background-color: #0056b3;
+    }
+
+   
+  </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <h1 style="color:white">Vet Profile and Details</h1>
+        <a href="total-pets.html">Total Pets</a>
+      </nav>
+  <div class="container">
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search by name or clinic">
+      <button onclick="searchVets()">Search</button>
+    </div>
+    <table id="vetTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Clinic Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dynamic rows will be added here -->
+      </tbody>
+    </table>
+  </div>
+  
+
+  <script>
+    let vets = [];
+
+    // Load vets data from the server
+    async function loadVets() {
+      try {
+        const response = await fetch('http://localhost:5000/vets/');
+        if (!response.ok) throw new Error('Failed to fetch vets');
+        const data = await response.json();
+        vets = data.map(vet => ({
+          id: vet.VetID,
+          name: vet.Name,
+          clinic: vet.ClinicName,
+          phone: vet.Phone,
+          email: vet.Email
+        }));
+        renderTable(vets);
+      } catch (error) {
+        console.error('Error loading vets:', error);
+      }
+    }
+
+    // Render the table with vets data
+    function renderTable(vets) {
+      const tbody = document.querySelector('#vetTable tbody');
+      tbody.innerHTML = ''; // Clear previous rows
+      vets.forEach(vet => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${vet.id}</td>
+          <td>${vet.name}</td>
+          <td>${vet.clinic}</td>
+          <td>${vet.phone}</td>
+          <td>${vet.email}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // Filter and search the table
+    function searchVets() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      console.log(query)
+      const filteredVets = vets.filter(vet =>
+        vet.name.toLowerCase().includes(query) ||
+        vet.clinic.toLowerCase().includes(query)
+      );
+      renderTable(filteredVets);
+    }
+
+    // Load vets data on page load
+    loadVets();
+  </script>
+</body>
+</html>

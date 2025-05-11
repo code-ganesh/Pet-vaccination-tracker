@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/index.css">
+  <title>Total Pets</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+    .container {
+      width: 90%;
+      margin: 20px auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 0px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table th, table td {
+      border: 1.6px solid #ffffff;
+      padding: 10px;
+      text-align: left;
+    }
+    table th {
+      background-color: #457b9d;
+      color: white;
+    }
+    .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 25px 30px;
+  width: 400px;
+  border-radius: 12px; /* Smooth rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+  position: relative;
+  animation: slideIn 0.3s ease-out; /* Smooth entry animation */
+}
+
+.modal-content .close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: bold;
+  color: #555;
+  transition: color 0.3s;
+}
+
+.modal-content .close:hover {
+  color: #ff5252; /* Highlight on hover */
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+  color: #333;
+  font-weight: bold;
+}
+
+.modal-content form label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #555;
+}
+
+.modal-content form input,
+.modal-content form select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.modal-content form input:focus,
+.modal-content form select:focus {
+  border-color: #4caf50; /* Green border on focus */
+  box-shadow: 0 0 6px rgba(76, 175, 80, 0.4); /* Glow effect on focus */
+}
+
+.modal-content form button {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.hidden {
+  display: none;
+}
+
+
+.modal-content form button:hover {
+  background-color: #45a049; /* Slightly darker green on hover */
+}
+
+/* Entry animation for the modal */
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+#stats {
+    background-color:#01497c;
+    border-radius: 12px;
+    padding: 30px;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 50px auto;
+    text-align: center;
+  }
+
+  #stats h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  #statsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #statsList li {
+    font-size: 18px;
+    margin: 10px 0;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    color: #242121;
+    transition: all 0.3s ease;
+  }
+
+  #statsList li:hover {
+    background-color: #4aa9c9;
+    color: white;
+    transform: scale(1.05);
+  }
+
+    button {
+      padding: 10px 15px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #a04545;
+      cursor: pointer;
+    }
+  
+
+  #deleteSelected {
+    padding: 12px 18px;
+    background: linear-gradient(90deg, #ff6f6f, #ff5252);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin:30px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 8px rgba(255, 82, 82, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    float: right;
+  }
+  .button-container {
+    margin-bottom: 20px; /* Adds space below the button */
+  }
+  #deleteSelected:hover {
+    background: linear-gradient(90deg, #ff5252, #e53935);
+    box-shadow: 0 6px 12px rgba(255, 82, 82, 0.6);
+    transform: translateY(-2px);
+  }
+
+  #deleteSelected:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(255, 82, 82, 0.4);
+  }
+
+
+  #paginationControls {
+    margin-top: 30px;
+    text-align: center; /* Center-aligns the content */
+    display: flex;
+    justify-content: center; /* Ensures items are aligned in the center */
+    align-items: center;
+    gap: 10px; /* Adds spacing between buttons and text */
+  }
+
+  #paginationControls button {
+    padding: 10px 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  #paginationControls button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+
+  #paginationControls button:hover:not(:disabled) {
+    background-color: #45a049;
+  }
+
+  #pageInfo {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .edit-btn {
+    margin-right: 20px;
+  }
+.select-pet{
+  transform: scale(1.5);
+}
+
+.search-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 70px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .search-filter div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #searchInput {
+            padding: 10px;
+            width: 300px;
+            border-radius: 6px;
+            border: 1.5px solid #ddd;
+            transition: border-color 0.3s ease;
+        }
+
+        #searchInput:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        select {
+            padding: 10px;
+            width: 200px;
+            border-radius: 6px;
+            border: 1.5px solid #ddd;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .filter-card {
+            text-align: center;
+        }
+.delete-btn{
+  background-color: red;
+}
+
+        
+    
+  </style>
+</head>
+<body>
+  <nav style="margin-bottom: 50px;">
+    <a href="index.html">Home</a>
+    <h1 style="color:white">Pet Profiles & Details</h1>
+    <a href="total-owners.html">Owners Details</a>
+    <a href="total-visits.html">Vet Visit</a>
+  </nav>
+  
+  <div class="container">
+    <div class="search-filter">
+      <div>
+          <label for="searchInput" style="font-size: 16px; font-weight: bold;">Search:</label>
+          <input
+              type="text"
+              id="searchInput"
+              placeholder="Search by Name, Species, etc."
+          />
+      </div>
+      <div>
+          <label for="speciesFilter" style="font-size: 16px; font-weight: bold;">Filter by Species:</label>
+          <select id="speciesFilter">
+              <option value="" disabled selected>Select Species</option>
+              <option value="dog">Dog</option>
+              <option value="cat">Cat</option>
+              <option value="bird">Bird</option>
+          </select>
+      </div>
+  </div>
+  
+    <table id="petsTable">
+      <thead>
+        <tr>
+          
+          <th>Pet ID</th>
+          <th>Name</th>
+          <th>Species</th>
+          <th>Breed</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Owner ID</th>
+          <th>Actions</th>
+          <th>Select</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button id="exportCsv" style="margin-top:20px">Export as CSV</button>
+    
+    <div class="button-container">
+      <button id="deleteSelected" >
+        Delete Selected
+      </button>
+    </div>
+    
+    <div id="paginationControls">
+      <button id="prevPage" disabled>Previous</button>
+      <span id="pageInfo">Page 1</span>
+      <button id="nextPage">Next</button>
+    </div>
+    
+    
+  </div>
+  
+  <div id="stats" style="margin-top:50px">
+    <h2>Pet Statistics</h2>
+    <ul id="statsList" style="list-style-type: none; padding: 0;"></ul>
+  </div>
+
+  <!-- Update Modal -->
+  <div id="updatePetModal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Update Pet</h2>
+      <form id="updatePetForm">
+        <input type="hidden" id="updatePetID" name="PetID">
+        <label for="updateName">Name:</label>
+        <input type="text" id="updateName" name="Name" required>
+        <label for="updateSpecies">Species:</label>
+        <input type="text" id="updateSpecies" name="Species" required>
+        <label for="updateBreed">Breed:</label>
+        <input type="text" id="updateBreed" name="Breed">
+        <label for="updateAge">Age:</label>
+        <input type="number" id="updateAge" name="Age" required>
+        <label for="updateGender">Gender:</label>
+        <select id="updateGender" name="Gender" required>
+          <option value="M">Male</option>
+          <option value="F">Female</option>
+        </select>
+        <label for="updateOwnerID">Owner ID:</label>
+        <input type="text" id="updateOwnerID" name="OwnerID" required>
+        <button type="submit">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2024 Pet Care Tracker. All rights reserved.
+  </footer>
+
+  <script>
+    // Fetch all pets
+    const fetchPets = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/pets/total`);
+        if (!response.ok) throw new Error(`Failed to fetch pets: ${response.statusText}`);
+        const pets = await response.json();
+        populatePetsTable(pets.pets);
+      } catch (error) {
+        console.error(error);
+        alert('Error fetching pets.');
+      }
+    };
+
+    // Populate pets table
+    const populatePetsTable = (pets) => {
+      const tableBody = document.querySelector('#petsTable tbody');
+      tableBody.innerHTML = pets
+        .map(
+          (pet) => `
+        <tr>
+          
+          <td>${pet.PetID}</td>
+          <td>${pet.Name}</td>
+          <td>${pet.Species}</td>
+          <td>${pet.Breed}</td>
+          <td>${pet.Age}</td>
+          <td>${pet.Gender}</td>
+          <td>${pet.OwnerID}</td>
+          <td>
+            <button class="edit-btn" data-id="${pet.PetID}">Edit</button>
+            <button class="delete-btn" data-id="${pet.PetID}">Delete</button>
+          </td>
+          <td><input type="checkbox" class="select-pet" data-id="${pet.PetID}"></td>
+        </tr>
+      `
+        )
+        .join('');
+    };
+
+    // Show Update Modal
+    const showUpdateModal = async (id) => {
+      try {
+        const response = await fetch(`http://localhost:5000/pets/${id}`);
+        if (!response.ok) throw new Error('Failed to fetch pet details.');
+        const pet = await response.json();
+
+        document.querySelector('#updatePetID').value = pet.PetID;
+        document.querySelector('#updateName').value = pet.Name;
+        document.querySelector('#updateSpecies').value = pet.Species;
+        document.querySelector('#updateBreed').value = pet.Breed;
+        document.querySelector('#updateAge').value = pet.Age;
+        document.querySelector('#updateGender').value = pet.Gender;
+        document.querySelector('#updateOwnerID').value = pet.OwnerID;
+
+        document.querySelector('#updatePetModal').classList.remove('hidden');
+      } catch (error) {
+        console.error(error);
+        alert('Error fetching pet details.');
+      }
+    };
+
+
+    // Populate species filter dropdown
+async function populateSpeciesFilter() {
+  try {
+    const response = await fetch('http://localhost:5000/pets/species');
+    if (!response.ok) throw new Error('Failed to fetch species');
+
+    const speciesList = await response.json();
+    const speciesFilter = document.querySelector('#speciesFilter');
+
+    // Clear existing options and add default options
+    speciesFilter.innerHTML = `<option value="All">All</option>`;
+    speciesList.forEach(species => {
+      const option = document.createElement('option');
+      option.value = species;
+      option.textContent = species;
+      speciesFilter.appendChild(option);
+    });
+  } catch (error) {
+    console.error('Error populating species filter:', error);
+  }
+}
+
+// Fetch pets based on species filter
+async function fetchPet(species = 'All') {
+  try {
+    const response = await fetch(`http://localhost:5000/pets/filter?species=${species}`);
+    if (!response.ok) throw new Error('Failed to fetch pets');
+
+    const pets = await response.json();
+    console.log(pets);
+    populatePetsTable(pets);
+  } catch (error) {
+    console.error('Error fetching pets:', error);
+  }
+}
+
+// Add event listener for species filter dropdown
+document.querySelector('#speciesFilter').addEventListener('change', (e) => {
+  const species = e.target.value;
+  fetchPet(species);
+});
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await populateSpeciesFilter(); // Populate dropdown
+  await fetchPet(); // Populate table with all pets
+});
+
+
+    //export csv
+
+    document.querySelector('#exportCsv').addEventListener('click', () => {
+  window.location.href = 'http://localhost:5000/pets/export';
+});
+
+
+
+
+    // Hide Modal
+    document.querySelector('.modal-content .close').addEventListener('click', () => {
+      document.querySelector('#updatePetModal').classList.add('hidden');
+    });
+
+    // Edit Button Event Listener
+    document.querySelector('#petsTable').addEventListener('click', (e) => {
+      if (e.target.classList.contains('edit-btn')) {
+        const petId = e.target.dataset.id;
+        console.log(petId);
+        showUpdateModal(petId);
+      }
+    });
+
+    // Submit Update Form
+    document.querySelector('#updatePetForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const petId = document.querySelector('#updatePetID').value;
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch(`http://localhost:5000/pets/update/${petId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (!response.ok) throw new Error('Failed to update pet.');
+        fetchPets();
+        document.querySelector('#updatePetModal').classList.add('hidden');
+        alert('Pet updated successfully.');
+      } catch (error) {
+        console.error(error);
+        alert('Error updating pet.');
+      }
+    });
+
+    // Delete Button Event Listener
+document.querySelector('#petsTable').addEventListener('click', async (e) => {
+  if (e.target.classList.contains('delete-btn')) {
+    const petId = e.target.dataset.id;
+    const confirmDelete = confirm('Are you sure you want to delete this pet?');
+    if (confirmDelete) {
+      try {
+        const response = await fetch(`http://localhost:5000/pets/delete/${petId}`, {
+          method: 'DELETE',
+        });
+
+        if (!response.ok) throw new Error('Failed to delete pet.');
+        fetchPets(); // Refresh the pets table
+        alert('Pet deleted successfully.');
+      } catch (error) {
+        console.error(error);
+        alert('Error deleting pet.');
+      }
+    }
+  }
+});
+// Search functionality
+// document.querySelector('#searchInput').addEventListener('input', (e) => {
+//   const searchTerm = e.target.value.toLowerCase();
+//   const rows = document.querySelectorAll('#petsTable tbody tr');
+
+//   rows.forEach((row) => {
+//     const cells = Array.from(row.querySelectorAll('td'));
+//     const matches = cells.some((cell) => cell.textContent.toLowerCase().includes(searchTerm));
+//     row.style.display = matches ? '' : 'none'; // Show or hide row
+//   });
+// });
+
+
+
+//pagination 
+const rowsPerPage = 6;
+let currentPage = 1;
+
+// Function to display a specific page
+const displayPage = (page) => {
+  const rows = Array.from(document.querySelectorAll('#petsTable tbody tr'));
+  const totalRows = rows.length;
+  const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+  rows.forEach((row, index) => {
+    row.style.display = index >= (page - 1) * rowsPerPage && index < page * rowsPerPage ? '' : 'none';
+  });
+
+  // Update pagination controls
+  document.querySelector('#pageInfo').textContent = `Page ${page}`;
+  document.querySelector('#prevPage').disabled = page === 1;
+  document.querySelector('#nextPage').disabled = page === totalPages;
+};
+
+// Pagination button listeners
+document.querySelector('#prevPage').addEventListener('click', () => {
+  if (currentPage > 1) {
+    currentPage--;
+    displayPage(currentPage);
+  }
+});
+
+document.querySelector('#nextPage').addEventListener('click', () => {
+  const totalRows = document.querySelectorAll('#petsTable tbody tr').length;
+  if (currentPage < Math.ceil(totalRows / rowsPerPage)) {
+    currentPage++;
+    displayPage(currentPage);
+  }
+});
+
+//delete selected
+
+document.querySelector('#deleteSelected').addEventListener('click', async () => {
+  const selectedCheckboxes = Array.from(document.querySelectorAll('.select-pet:checked'));
+  if (selectedCheckboxes.length === 0) {
+    alert('No pets selected for deletion.');
+    return;
+  }
+
+  const ids = selectedCheckboxes.map((checkbox) => checkbox.dataset.id);
+
+  try {
+    const response = await fetch('http://localhost:5000/pets/delete', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ids }),
+    });
+
+    if (!response.ok) throw new Error('Failed to delete pets.');
+    alert('Selected pets deleted successfully.');
+    fetchPets(); // Refresh the table
+  } catch (error) {
+    console.error(error);
+    alert('Error deleting selected pets.');
+  }
+});
+
+
+//search logic
+document.querySelector('#searchInput').addEventListener('input', async (e) => {
+  const query = e.target.value.trim(); // Trim whitespace
+  console.log(query);
+
+  try {
+    if (!query) {
+      // Fetch all pets when the input is cleared
+      const response = await fetch('http://localhost:5000/pets');
+      if (!response.ok) throw new Error('Failed to fetch all pets.');
+
+      const allPets = await response.json();
+      populatePetsTable(allPets); // Populate the table with all pets
+      return;
+    }
+
+    // Fetch search results when the input is not empty
+    const response = await fetch(`http://localhost:5000/pets/search?query=${query}`);
+    if (!response.ok) throw new Error('Failed to search pets.');
+
+    const pets = await response.json();
+    populatePetsTable(pets); // Populate the table with search results
+  } catch (error) {
+    console.error(error);
+    alert('Such data is not present.');
+  }
+});
+
+
+
+
+//fetch and display stat
+
+const fetchStats = async () => {
+  try {
+    const response = await fetch('http://localhost:5000/pets/stats');
+    if (!response.ok) throw new Error('Failed to fetch statistics.');
+
+    const stats = await response.json();
+    const statsList = document.querySelector('#statsList');
+    statsList.innerHTML = stats
+      .map((stat) => `<li>${stat.Species}: ${stat.total}</li>`)
+      .join('');
+  } catch (error) {
+    console.error(error);
+    alert('Error fetching statistics.');
+  }
+};
+
+// Call fetchStats after page load
+fetchStats();
+
+
+
+
+
+
+
+
+    // Initial Fetch
+    fetchPets();
+  </script>
+</body>
+</html>

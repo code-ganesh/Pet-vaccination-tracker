@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script defer src="../js/scripts.js"></script>
+  <title>Vaccination Management</title>
+</head>
+<body>
+    
+  
+  <!-- Navigation Bar -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="owner.html">Register Owner</a>
+    <a href="pet.html">Add Pet</a>
+    <a href="vet.html">Assign Vet</a>
+    <a href="visit.html">Log Visit</a>
+    <a href="health.html">Record Health</a>
+    <a href="vaccine.html">Update Vaccine </a>
+    
+  </nav>
+  <h1>Vaccination Management</h1>
+  <section>
+  <h2>Add vaccination Schedule Details</h2>
+  <form class="data-form" data-type="vaccinations">
+    <input type="number" name="ScheduleID" placeholder="ScheduleID" required />
+    <input type="number" name="PetID" placeholder="Pet ID" required />
+    <input type="number" name="VaccineID" placeholder="Vaccine ID" required />
+    <label for="VaccinationDate">VaccinationDate</label>
+    <input type="date" name="VaccinationDate" required />
+    <label for="DueDate">DueDate</label>
+    <input type="date" name="DueDate" required />
+    <select name="Status">
+      <option value="Pending">Pending</option>
+      <option value="Completed">Completed</option>
+    </select>
+    <button type="submit">Add Vaccination</button>
+  </form>
+  </section>
+  <h2>Vaccination Records</h2>
+  <div>
+  <button class="show-hide-btn" data-type="vaccinations">Show All</button>
+  <ul class="data-list" data-type="vaccinations"  style="display: none;"></ul>
+</div>
+</body>
+</html>

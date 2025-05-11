@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/index.css">
+  <title>Total Vet Visits</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      font-family: Arial, sans-serif;
+      background-color: #eef2f7;
+    }
+
+    h1{
+        margin: 0px;
+    }
+    .container {
+      flex: 1;
+      max-width: 1200px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .filter-bar input, .filter-bar select {
+      width: 48%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .visit-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .visit-table th, .visit-table td {
+      padding: 10px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+
+    .visit-table th {
+      background-color: #1e88e5;
+      color: white;
+    }
+
+    .visit-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .visit-table tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    
+
+    @media (max-width: 768px) {
+      .filter-bar {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .filter-bar input, .filter-bar select {
+        width: 100%;
+      }
+    }
+
+    
+  </style>
+</head>
+<body>
+    <nav style="margin-bottom: 50px;">
+      <a href="index.html">Home</a>
+      <h1 style="color:white">Pet Visit Details</h1>
+      <a href="total-pets.html">Pet Details</a>
+      <a href="total-vets.html">Vet Details</a>
+    </nav>
+  
+    <div id="total-vet-visits" class="container">
+      <div class="filter-bar">
+        <input type="text" id="searchInput" placeholder="Search by pet name or vet name">
+        <select id="filterDate">
+            <option value="">All Dates</option>
+            <!-- Dates will be dynamically added here -->
+          </select>
+          
+      </div>
+  
+      <table class="visit-table">
+        <thead>
+          <tr>
+            <th>Visit ID</th>
+            <th>Vet Name</th>
+            <th>Pet Name</th>
+            <th>Visit Date</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody id="visitTableBody">
+          <!-- Data will be dynamically loaded here -->
+        </tbody>
+      </table>
+    </div>
+  
+    <footer>&copy; 2024 Pet Care Tracker. All rights reserved.</footer>
+  </body>
+  
+
+  <script>
+    let visits = [];
+
+    async function loadVetVisits() {
+  try {
+    const response = await fetch('http://localhost:5000/visits/visit');
+    if (!response.ok) throw new Error('Failed to fetch vet visits');
+    const data = await response.json();
+
+    visits = data.map(visit => ({
+      id: visit.VisitID,
+      vetName: visit.VetName,
+      petName: visit.PetName,
+      visitDate: visit.VisitDate,
+      reason: visit.Reason
+    }));
+
+    renderVisits();
+    populateDateFilter(); // Populate date filter here
+  } catch (error) {
+    console.error('Error loading vet visits:', error);
+  }
+}
+
+
+function populateDateFilter() {
+  const dateFilter = document.getElementById('filterDate');
+  const uniqueDates = [...new Set(visits.map(visit => visit.visitDate))]; // Get unique dates
+  uniqueDates.sort(); // Sort dates in ascending order
+
+  uniqueDates.forEach(date => {
+    const option = document.createElement('option');
+    option.value = date;
+    option.textContent = new Date(date).toLocaleDateString(); // Format date
+    dateFilter.appendChild(option);
+  });
+}
+
+document.getElementById('filterDate').addEventListener('change', (event) => {
+  const selectedDate = event.target.value;
+  const filteredVisits = selectedDate
+    ? visits.filter(visit => visit.visitDate === selectedDate)
+    : visits;
+  renderFilteredVisits(filteredVisits);
+});
+
+
+    function renderVisits() {
+      const tableBody = document.getElementById('visitTableBody');
+      tableBody.innerHTML = '';
+      visits.forEach(visit => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${visit.id}</td>
+          <td>${visit.vetName}</td>
+          <td>${visit.petName}</td>
+          <td>${visit.visitDate}</td>
+          <td>${visit.reason}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    document.getElementById('searchInput').addEventListener('input', (event) => {
+      const query = event.target.value.toLowerCase();
+      const filteredVisits = visits.filter(visit =>
+        visit.vetName.toLowerCase().includes(query) ||
+        visit.petName.toLowerCase().includes(query)
+      );
+      renderFilteredVisits(filteredVisits);
+    });
+
+    document.getElementById('filterDate').addEventListener('change', (event) => {
+      const selectedDate = event.target.value;
+      const filteredVisits = selectedDate
+        ? visits.filter(visit => visit.visitDate === selectedDate)
+        : visits;
+      renderFilteredVisits(filteredVisits);
+    });
+
+    function renderFilteredVisits(filteredVisits) {
+      const tableBody = document.getElementById('visitTableBody');
+      tableBody.innerHTML = '';
+      filteredVisits.forEach(visit => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${visit.id}</td>
+          <td>${visit.vetName}</td>
+          <td>${visit.petName}</td>
+          <td>${visit.visitDate}</td>
+          <td>${visit.reason}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Load vet visits on page load
+    loadVetVisits();
+  </script>
+</body>
+</html>

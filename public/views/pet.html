@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/styles.css">
+  <title>Pet Management</title>
+</head>
+<body>
+ 
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="owner.html">Register Owner</a>
+    <a href="vet.html">Assign Vet</a>
+    <a href="visit.html">Log Visit</a>
+    <a href="health.html">Record Health</a>
+    <a href="vaccination.html">Vaccination Schedule</a>
+    <a href="vaccine.html">Update Vaccine</a>
+  </nav>
+  <h1>Pet Management</h1>
+
+  <!-- Form for Adding New Pets -->
+  <section class="sep">
+    <h2>Add a New Pet</h2>
+    <form class="data-form" data-type="pets">
+      <input type="number" name="PetID" placeholder="Pet ID (Unique)" required />
+      <input type="text" name="Name" placeholder="Pet Name" required />
+      <input type="text" name="Species" placeholder="Species" required />
+      <input type="text" name="Breed" placeholder="Breed" />
+      <input type="number" name="Age" placeholder="Age" />
+      <select name="Gender">
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+      </select>
+      <input type="number" name="OwnerID" placeholder="Owner ID (Unique)" required />
+      <button type="submit">Add Pet</button>
+    </form>
+  </section>
+
+  <!-- Button to Show All -->
+  <div>
+    <button class="show-hide-btn" data-type="pets">Show All</button>
+    <ul class="data-list" data-type="pets"  style="display: none;"></ul>
+  </div>
+
+  <footer>© 2024 Pet Care Tracker</footer>
+  <script src="../js/scripts.js"></script>
+</body>
+</html>

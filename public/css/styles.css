@@ -1,0 +1,403 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background: linear-gradient(135deg, #caf0f8, #ade8f4, #1b4965);
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures body takes full height */
+}
+
+main {
+  flex-grow: 1; /* Ensures the content section grows and takes available space */
+}
+
+/* Header Styles */
+h1, h2 {
+  text-align: center;
+  margin-top: 30px;
+  color: #032342;
+}
+
+h1 {
+  font-size: 2.2rem;
+}
+
+h2 {
+  font-size: 1.6rem;
+}
+
+/* Navigation */
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  background-color: #34495e;
+  padding: 10px 0;
+  text-align: center;
+ 
+  
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 15px;
+  transition: background-color 0.3s;
+}
+
+nav a:hover {
+  background-color: #d8ecff;
+  color:#012b55;
+}
+
+/* Forms */
+form {
+  max-width: 600px; /* Ensure form doesn't shrink beyond this width */
+  width: 100%; /* Ensures responsiveness */
+  margin: 0 auto 20px;
+  background-color: #34495e;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+form input, 
+form textarea, 
+form button {
+  display: block;
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+form button {
+  background-color: #99d98c;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+/* Style to match the input elements */
+select {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  color:grey;
+  border-radius: 5px;
+  margin-bottom: 15px; /* Space between the input elements */
+}
+
+
+
+
+form button:hover {
+  background-color: #e3ac64;
+}
+
+/* Show List Button */
+
+
+/* Lists */
+.dynamic-list {
+  max-width: 600px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+}
+
+.dynamic-list li {
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dynamic-list li button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.dynamic-list li button:hover {
+  background-color: #c0392b;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 10px;
+  margin-top: 20px;
+  font-size: 0.8rem;
+  color: #ffffff;
+  background-color: #34495e;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  margin-top: auto; /* Ensures footer sticks to the bottom */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  form {
+    max-width: 100%; /* Form takes full width on smaller screens */
+    padding: 15px;
+  }
+
+  nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  nav a {
+    padding: 8px 15px;
+  }
+}
+
+
+/* Centering and styling the button */
+/* Centering and styling the button */
+.show-hide-btn {
+  display: block;
+  margin: 20px auto; /* Centers the button */
+  padding: 10px 20px;
+  font-size: 1.2em;
+  color: #fff;
+  background-color: #014f86;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.show-hide-btn:hover {
+  background-color: #0056b3;
+}
+
+.show-hide-btn:active {
+  background-color: #003f7f;
+}
+
+/* Center the list */
+
+
+.data-list {
+  margin: 20px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  width: 60%;
+  list-style-type: none;
+  text-align: center; /* Center the list container */
+}
+
+.list-item {
+  margin: 25px 0;
+  padding: 20px;
+  background-color: #ccdbfd;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  align-items: center; /* Center-align content */
+}
+
+.item-details {
+  text-align: left; /* Left-align the key-value pairs */
+  width: 100%; /* Occupy full width for proper alignment */
+}
+
+.item-details div {
+  margin-bottom: 5px;
+}
+
+.remove-btn {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #ff5e57;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.remove-btn:hover {
+  background-color: #e0554f;
+}
+
+label{
+  color:white;
+}
+
+
+h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 3rem;
+  text-align: center;
+  color: #ff7e5f;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  color: transparent;
+  background-clip: text;
+  text-transform: uppercase;
+  margin: 30px 0;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+section {
+  margin: 20px auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 800px;
+  background: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2rem;
+  color: #444;
+  margin-bottom: 15px;
+  border-left: 5px solid #ff7e5f;
+  padding-left: 10px;
+  text-transform: capitalize;
+}
+
+.data-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.data-form input,
+.data-form textarea,
+.data-form button {
+  font-size: 1rem;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.data-form input:focus,
+.data-form textarea:focus {
+  outline: none;
+  border-color: #ff7e5f;
+  box-shadow: 0 0 4px rgba(255, 126, 95, 0.4);
+}
+
+.data-form button {
+  background: #ff7e5f;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.data-form button:hover {
+  background: #feb47b;
+}
+
+/* General styles for the dialog box */
+/* Dialog Box Styling */
+.dialog-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 1001;
+  width: 400px;
+  text-align: center;
+}
+
+.dialog-box h3 {
+  margin-bottom: 10px;
+  font-size: 1.2em;
+}
+
+.dialog-box .show-reason-btn {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.dialog-box .show-reason-btn:hover {
+  background-color: #3fb300;
+}
+
+.dialog-box .reason-text {
+  display: none;
+  margin-top: 15px;
+  font-size: 0.95em;
+  color: #333;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-left: 4px solid #ffc107;
+  border-radius: 5px;
+  text-align: left;
+}
+
+/* Backdrop Styling */
+.dialog-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+/* Close Button Styling */
+.dialog-box .close-dialog-btn {
+  background-color: #dc3545; /* Bootstrap danger color for a consistent red theme */
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.dialog-box .close-dialog-btn:hover {
+  background-color: #c82333; /* Slightly darker red for hover effect */
+  transform: scale(1.05); /* Slight enlargement on hover */
+}
+
+.dialog-box .close-dialog-btn:active {
+  background-color: #bd2130; /* Darker red for active click state */
+  transform: scale(0.95); /* Slight shrinkage on click */
+}
+
+

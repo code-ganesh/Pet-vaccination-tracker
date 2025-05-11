@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/styles.css">
+  <title>Health Record Management</title>
+</head>
+<body>
+    
+  <!-- Navigation Bar -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="owner.html">Register Owner</a>
+    <a href="pet.html">Add Pet</a>
+    <a href="vet.html">Assign Vet</a>
+    <a href="visit.html">Log Visit</a>
+    <a href="vaccination.html">Vaccination Schedule</a>
+    <a href="vaccine.html">Update Vaccine</a>
+  </nav>
+  <h1>Health Record Management</h1>
+
+  <!-- Form for Adding Health Record -->
+  <section>
+    <h2>Add a Health Record</h2>
+    <form class="data-form" data-type="healths">
+      <input type="number" name="RecordID" placeholder="Rercord ID" required />
+      <input type="number" name="PetID" placeholder="Pet ID" required />
+      <input type="text" name="Conditions" placeholder="Condition" required />
+      <label for="DiagnosisDate">DiagnosisDate</label>
+      <input type="date" name="DiagnosisDate" placeholder="DiagnosisDate" required/>
+      <label for="TreatmentStartDate">TreatmentStartDate</label>
+      <input type="date" name="TreatmentStartDate" placeholder="TreatmentStartDate"/>
+      <label for="TreatmentEndDate">DreatmentEndDate</label>
+      <input type="date" name="TreatmentEndDate" placeholder="TreatmentEndDate"/>
+      <input type="text" name="TreatmentPlan" placeholder="Treatment Plan" />
+      <button type="submit">Add Record</button>
+    </form>
+  </section>
+
+  <!-- Button to Show All Health Records -->
+  <div>
+    <button class="show-hide-btn" data-type="healths">Show All</button>
+    <ul class="data-list" data-type="healths" style="display: none;"></ul>
+  </div>
+
+  <footer>© 2024 Pet Care Tracker</footer>
+  
+  <script src="../js/scripts.js"></script>
+</body>
+</html>

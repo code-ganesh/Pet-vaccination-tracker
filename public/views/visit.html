@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/styles.css">
+  <title>Vet Visit Management</title>
+</head>
+<body>
+ 
+
+  <!-- Navigation Bar -->
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="owner.html">Register Owner</a>
+    <a href="pet.html">Add Pet</a>
+    <a href="vet.html">Assign Vet</a>
+    <a href="health.html">Record Health</a>
+    <a href="vaccination.html">Vaccination Schedule</a>
+    <a href="vaccine.html">Update Vaccine</a>
+  </nav>
+  <h1>Vet Visit Management</h1>
+
+  <!-- Form for Adding Vet Visits -->
+  <section>
+    <h2>Add a New Vet Visit</h2>
+    <form class="data-form" data-type="visits">
+      <input type="number" name="VisitID" placeholder="Visit ID (Unique)" required />
+      <input type="number" name="PetID" placeholder="Pet ID" required />
+      <input type="number" name="VetID" placeholder="Vet ID" required />
+      <label for="VisitDate">VisitDate</label>
+      <input type="date" name="VisitDate" required />
+      <input type="text" name="Reason" placeholder="Reason for Visit" required />
+      <input type="text" name="Treatment" placeholder="Treatment Given" />
+      <button type="submit">Add Visit</button>
+    </form>
+  </section>
+
+  <!-- Button to Show All Visits -->
+ <div>
+    <button class="show-hide-btn" data-type="visits">Show All</button>
+    <ul class="data-list" data-type="visits" style="display: none;"></ul>
+  </div>
+
+  <footer>© 2024 Pet Care Tracker</footer>
+  
+  <script src="../js/scripts.js"></script>
+</body>
+</html>

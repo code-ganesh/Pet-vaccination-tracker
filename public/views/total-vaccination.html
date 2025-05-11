@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Total Vaccination Schedule</title>
+  <link rel="stylesheet" href="../css/index.css">
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #e0f7fa, #80deea);
+      color: #333;
+    }
+
+    /* Navigation Bar */
+    nav h1{
+      color: white;
+    }
+
+    /* Page Heading */
+    h1 {
+      text-align: center;
+      color: #01579b;
+      margin: 20px 0;
+      text-transform: uppercase;
+      font-size: 26px;
+      letter-spacing: 2px;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Vaccination Cards */
+    .card {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      background: linear-gradient(145deg, #b3e5fc, #4fc3f7);
+      color: #01579b;
+      margin-bottom: 20px;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .card div {
+      flex: 1 1 calc(33.33% - 10px);
+      margin: 5px;
+      font-size: 15px;
+    }
+
+    .card div span {
+      font-weight: bold;
+      color: #0288d1;
+    }
+
+    /* Button */
+    .button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .export-button {
+      background: linear-gradient(90deg, #4caf50, #388e3c);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .export-button:hover {
+      background: linear-gradient(90deg, #66bb6a, #43a047);
+      transform: scale(1.05);
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 10px;
+      border-radius: 10px;
+      width: 400px;
+      text-align: center;
+    }
+
+    .modal-buttons {
+      margin-top: 20px;
+    }
+
+    .modal-buttons button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #confirmBtn {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    #cancelBtn {
+      background-color: #f44336;
+      color: white;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+
+    /* Mark Complete Button Style */
+.mark-complete-btn {
+  background-color: #fb8500;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 10px;
+}
+
+.mark-complete-btn:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+.mark-complete-btn:active {
+  transform: scale(1);
+}
+
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html">Home</a>
+    <h1>Total Vaccination Schedule</h1>
+    <a href="total-vaccine.html">Vaccine Details</a>
+    <a href="total-owners.html">Owners Details</a>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1>Schedule Details</h1>
+    <div id="schedule-container">
+      <!-- Vaccination schedule cards will be dynamically injected here -->
+    </div>
+
+    <div class="button-container">
+      <button class="export-button" onclick="exportToCSV()">Export to CSV</button>
+    </div>
+  </div>
+
+  <!-- Modal (Custom Dialogue Box) -->
+  <div id="customModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Confirmation</h2>
+      <p id="modal-message">Are you sure you want to mark this vaccination as complete?</p>
+      <div class="modal-buttons">
+        <button id="confirmBtn">Yes</button>
+        <button id="cancelBtn">No</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Fetch data from the server and display vaccination schedule
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch("http://localhost:5000/vaccination/schedule-data")
+        .then((response) => response.json())
+        .then((data) => {
+          populateSchedule(data.schedule);
+        })
+        .catch((error) => console.error("Error fetching vaccination schedule data:", error));
+    });
+
+    function populateSchedule(schedule) {
+  const container = document.getElementById("schedule-container");
+  container.innerHTML = ""; // Clear existing content
+
+  schedule.forEach((entry) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div><span>Vaccination ID:</span> ${entry.ScheduleID}</div>
+      <div><span>Pet ID:</span> ${entry.PetID}</div>
+      <div><span>Vaccine ID:</span> ${entry.VaccineID}</div>
+      <div><span>Vaccination Date:</span> ${entry.VaccinationDate}</div>
+      <div><span>Due Date:</span> ${entry.DueDate}</div>
+      <div><span>Status:</span> ${entry.Status}</div>
+    `;
+
+    // Only show the "Mark Complete" button if the status is 'Pending'
+    if (entry.Status === 'Pending') {
+      const markCompleteBtn = document.createElement("button");
+      markCompleteBtn.textContent = "Mark as Complete";
+      markCompleteBtn.className = "mark-complete-btn";
+      
+      // Pass the current card element to the function
+      markCompleteBtn.onclick = () => {
+        markVaccinationAsComplete(entry.ScheduleID, card);
+      };
+
+      card.appendChild(markCompleteBtn);
+    }
+
+    container.appendChild(card);
+  });
+}
+
+
+    // Modal (Custom Dialogue Box)
+    function showModal(message, callback) {
+      const modal = document.getElementById('customModal');
+      const confirmBtn = document.getElementById('confirmBtn');
+      const cancelBtn = document.getElementById('cancelBtn');
+      const modalMessage = document.getElementById('modal-message');
+
+      modalMessage.textContent = message;
+      modal.style.display = 'flex';
+
+      // When the user clicks "Yes" (Confirm)
+      confirmBtn.onclick = function () {
+        callback(); // Execute the passed callback (the actual update)
+        modal.style.display = 'none'; // Close the modal
+      };
+
+      // When the user clicks "No" (Cancel)
+      cancelBtn.onclick = function () {
+        modal.style.display = 'none'; // Close the modal
+      };
+
+      // Close the modal if the user clicks on the close icon
+      const closeBtn = document.querySelector('.close');
+      closeBtn.onclick = function () {
+        modal.style.display = 'none';
+      };
+    }
+
+    // Example: Replace alert with showModal for marking vaccination as complete
+    function markVaccinationAsComplete(scheduleID, cardElement) {
+  const message = `Are you sure you want to mark the vaccination with Schedule ID ${scheduleID} as complete?`;
+
+  showModal(message, function () {
+    // Make the API call to update the vaccination status
+    fetch(`http://localhost:5000/vaccination/update-status/${scheduleID}`, {
+      method: 'PATCH',
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          showNotificationModal('Vaccination marked as completed!');
+          // Update the status in the card
+          const statusDiv = cardElement.querySelector('div:nth-child(6)');
+          if (statusDiv) {
+            statusDiv.innerHTML = `<span>Status:</span> Completed`;
+          }
+
+          // Remove the "Mark as Complete" button
+          const markCompleteBtn = cardElement.querySelector('.mark-complete-btn');
+          if (markCompleteBtn) {
+            markCompleteBtn.remove();
+          }
+        } else {
+          showNotificationModal('Failed to mark vaccination as completed.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        showNotificationModal('An error occurred while marking the vaccination as completed.');
+      });
+  });
+}
+
+// Notification Modal
+function showNotificationModal(message) {
+  const modal = document.getElementById('customModal');
+  const modalMessage = document.getElementById('modal-message');
+
+  modalMessage.textContent = message;
+  modal.style.display = 'flex';
+
+  // Change modal buttons to a single "Close" button for notifications
+  const modalButtons = document.querySelector('.modal-buttons');
+  modalButtons.innerHTML = `
+    <button id="closeNotificationBtn" style="background-color: #0288d1; color: white;">Close</button>
+  `;
+
+  // Close modal when the user clicks "Close"
+  const closeNotificationBtn = document.getElementById('closeNotificationBtn');
+  closeNotificationBtn.onclick = function () {
+    modal.style.display = 'none';
+  };
+
+  // Allow the close icon to also close the modal
+  const closeBtn = document.querySelector('.close');
+  closeBtn.onclick = function () {
+    modal.style.display = 'none';
+  };
+}
+
+
+    // Export schedule to CSV
+    function exportToCSV() {
+      fetch("http://localhost:5000/vaccination/export-schedule")
+        .then((response) => response.blob())
+        .then((blob) => {
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+
+          link.href = url;
+          link.download = "vaccination-schedule.csv";
+          link.click();
+          URL.revokeObjectURL(url);
+        })
+        .catch((error) => console.error("Error exporting data:", error));
+    }
+  </script>
+</body>
+</html>

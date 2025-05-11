@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/styles.css">
+  <title>Owner Management</title>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="pet.html">Add Pet</a>
+    <a href="vet.html">Assign Vet</a>
+    <a href="visit.html">Log Visit</a>
+    <a href="health.html">Record Health</a>
+    <a href="vaccination.html">Vaccination Schedule</a>
+    <a href="vaccine.html">Update Vaccine</a>
+  </nav>
+  <h1>Owner Management</h1>
+  
+  <!-- Section for Adding a New Owner -->
+  <section>
+    <h2>Add a New Owner</h2>
+    <form class="data-form" data-type="owners">
+      <input type="number" name="OwnerID" placeholder="Owner ID (Unique)" required />
+      <input type="text" name="Name" placeholder="Owner Name" required />
+      <input type="text" name="Phone" placeholder="Phone Number" required />
+      <input type="email" name="Email" placeholder="Email Address" />
+      <textarea name="Address" placeholder="Residential Address" rows="3"></textarea>
+      <button type="submit">Add Owner</button>
+    </form>
+  </section>
+
+  <!-- Section to Show All Owners -->
+  <div>
+    <button class="show-hide-btn" data-type="owners">Show All</button>
+    <ul class="data-list" data-type="owners" style="display: none;"></ul>
+  </div>
+
+  <footer>© 2024 Pet Care Tracker</footer>
+  <script src="../js/scripts.js"></script>
+</body>
+</html>
